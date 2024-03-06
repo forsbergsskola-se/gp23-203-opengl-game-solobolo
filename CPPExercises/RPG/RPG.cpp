@@ -9,9 +9,7 @@ class unit
 public:
     explicit unit(const char* name, const int health) : name_{ name }
     {
-        double minHealth = 0;
-        double maxHealth = 100;
-        health_ = min(std::max(health, minHealth), maxHealth));
+        health_ = min(max(health, minHealth_), maxHealth_);
         cout << name << " \033[1;32mspawned\033[0m with \033[1;34m" << health << " Health\033[0m.\n";
     }
 
@@ -30,13 +28,15 @@ public:
     int get_health() const { return health_; }
     void set_health(const int value)
     {
-        health_ = min(std::max(value, min), max));
+        health_ = min(max(value, minHealth_), maxHealth_);
         cout << name_ << " now has \033[1;34m" << health_ << " Health\033[0m.\n";
     }
 
 private:
     const char* name_;
-    int health_;
+    double health_;
+    double minHealth_ = 0;
+    double maxHealth_ = 100;
 };
 
 unit* create_hero()
@@ -84,7 +84,7 @@ int main()
         Sleep(800);
         cout << "\n";
         cout << "Do you want to continue? y/n\n";
-        cin >> should_continue
+        cin >> should_continue;
     } while (should_continue == 'y');
 
         // good game
