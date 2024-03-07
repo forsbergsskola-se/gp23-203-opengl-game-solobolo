@@ -128,8 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="RPG.cpp" />
+    <ClCompile Include="skeleton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="skeleton.h" />
     <ClInclude Include="unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

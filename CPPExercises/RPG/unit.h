@@ -40,3 +40,4 @@ private:
     double minHealth_ = 0;
     double maxHealth_ = 100;
 };
+
