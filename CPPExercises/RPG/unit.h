@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <iostream>
 #include <windows.h>
-#include "unit.h"
 
 using namespace std;
 
@@ -15,15 +14,20 @@ public:
         cout << name << " \033[1;32mspawned\033[0m with \033[1;34m" << health << " Health\033[0m.\n";
     }
 
-    ~unit()
+    virtual ~unit()
     {
         cout << name_ << " \033[1;31mdied\033[0m.\n";
     }
 
-    void attack(unit& other)
+    virtual void attack(unit& other)
     {
         cout << name_ << " \033[1;31mattacks\033[0m " << other.name_ << ".\n";
-        other.set_health(other.get_health() - 1);
+        other.takeDamage(1);
+    }
+
+    virtual void takeDamage(int damage)
+    {
+        set_health(get_health() - damage);
     }
 
     bool is_dead() const { return health_ <= 0; }
