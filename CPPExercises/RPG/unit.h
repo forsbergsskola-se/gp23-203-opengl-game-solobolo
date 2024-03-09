@@ -47,3 +47,8 @@ private:
     double maxHealth_ = 100;
 };
 
+class item
+{
+
+};
+

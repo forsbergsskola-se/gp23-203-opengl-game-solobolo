@@ -13,7 +13,7 @@ public:
     virtual void takeDamage(int damage) override
     {
         set_health(get_health() - damage);
-        if (this->is_dead())
+        if (this->is_dead() && !_deathrattle)
         {
             cout << "Infected came back from the dead as Zombie with 1 Health." << endl;
             set_health(1);

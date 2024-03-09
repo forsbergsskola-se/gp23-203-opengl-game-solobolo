@@ -2,6 +2,8 @@
 #include <iostream>
 #include <windows.h>
 #include "unit.h"
+#include "skeleton.h"
+#include "infected.h"
 
 using namespace std;
 
@@ -12,6 +14,20 @@ unit* create_hero()
 
 unit* create_enemy()
 {
+    srand (time(NULL));
+    float randomRoll = rand() % 1f + 0f;
+    if (randomRoll < 0.2f)
+    {
+        //skelly
+    }
+    if (randomRoll < 0.05f)
+    {
+        //infected
+    }
+    if (randomRoll < 0.1f)
+    {
+        //base enemy
+    }
     return new unit("Enemy", 3);
 }
 
