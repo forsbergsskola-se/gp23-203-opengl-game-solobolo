@@ -32,14 +32,16 @@ public:
 
     bool is_dead() const { return health_ <= 0; }
     int get_health() const { return health_; }
-    void set_health(const int value)
+    virtual void set_health(const int value)
     {
         health_ = min(max(value, minHealth_), maxHealth_);
         cout << name_ << " now has \033[1;34m" << health_ << " Health\033[0m.\n";
     }
 
-private:
+protected:
     const char* name_;
+
+private:
     double health_;
     double minHealth_ = 0;
     double maxHealth_ = 100;
