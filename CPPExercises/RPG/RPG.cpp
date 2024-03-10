@@ -1,11 +1,24 @@
 #include <algorithm>
 #include <iostream>
 #include <windows.h>
+#include <random>
 #include "unit.h"
-#include "skeleton.h"
-#include "infected.h"
 
 using namespace std;
+
+float randomFloat() {
+    // Create random device to seed the RNG
+    random_device rd;
+    
+    // Create RNG
+    mt19937 gen(rd());
+    
+    // Create uniform distribution between 0 and 1
+    uniform_real_distribution<float> dis(0.0f, 1.0f);
+    
+    // Return random float between 0 and 1
+    return dis(gen);
+}
 
 unit* create_hero()
 {
@@ -15,16 +28,15 @@ unit* create_hero()
 unit* create_enemy()
 {
     //srand( (unsigned)time( NULL ) );
-    srand(static_cast<unsigned int>(time(nullptr)));
-    float randomRoll;
-    randomRoll = (float)rand() / RAND_MAX;
+    float randomRoll = randomFloat();
+    cout << randomRoll << endl;
     if (randomRoll < 0.2f)
     {
-        return new infected();
+        return new skeleton();
     }
     else if (randomRoll > 0.5f)
     {
-        return new skeleton();
+        return new infected();
     }
     else
     {
