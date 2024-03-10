@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPPExercises", "CPPExercise
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RPG", "RPG\RPG.vcxproj", "{CF35D70E-03C0-47C3-8F9D-C7A1BCD0C411}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RPGTest", "RPGTest\RPGTest.vcxproj", "{76980BCB-48AD-4E23-A235-8F6E00292CAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,8 +33,19 @@ Global
 		{CF35D70E-03C0-47C3-8F9D-C7A1BCD0C411}.Release|Win32.Build.0 = Release|Win32
 		{CF35D70E-03C0-47C3-8F9D-C7A1BCD0C411}.Release|x64.ActiveCfg = Release|x64
 		{CF35D70E-03C0-47C3-8F9D-C7A1BCD0C411}.Release|x64.Build.0 = Release|x64
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Debug|Win32.Build.0 = Debug|Win32
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Debug|x64.ActiveCfg = Debug|x64
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Debug|x64.Build.0 = Debug|x64
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Release|Win32.ActiveCfg = Release|Win32
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Release|Win32.Build.0 = Release|Win32
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Release|x64.ActiveCfg = Release|x64
+		{76980BCB-48AD-4E23-A235-8F6E00292CAA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26F80511-AA3A-45AC-ABAD-4D93F15C05EE}
 	EndGlobalSection
 EndGlobal
