@@ -14,17 +14,19 @@ unit* create_hero()
 
 unit* create_enemy()
 {
-    srand (time(NULL));
-    float randomRoll = rand() % 1f + 0f;
+    //srand( (unsigned)time( NULL ) );
+    srand(static_cast<unsigned int>(time(nullptr)));
+    float randomRoll;
+    randomRoll = (float)rand() / RAND_MAX;
     if (randomRoll < 0.2f)
     {
         //skelly
     }
-    if (randomRoll < 0.05f)
+    else if (randomRoll > 0.5f)
     {
         //infected
     }
-    if (randomRoll < 0.1f)
+    else
     {
         //base enemy
     }
