@@ -191,5 +191,68 @@ public:
     }
 };
 
+class skeleton : virtual public unit
+{
+public:
+    skeleton() : unit("Skeleton", 50)
+    {
+        cout << "An Infected \033[1;32mSpawned\033[0m with \033[1;34m50 Health\033[0m.\n";
+    }
+
+    virtual void takeDamage(int damage) override
+    {
+        cout << "The attack is very effective!" << endl;
+        int value = 0;
+        damage = damage * 2;
+        if (leftHand != nullptr || rightHand != nullptr)
+        {
+            value = (leftHand->armor_ + rightHand->armor_);
+            if (damage - value < 1)
+            {
+                set_health(get_health() - 1);
+                return;
+            }
+            set_health(get_health() - (damage - value));
+            return;
+        }
+        set_health(get_health() - damage);
+    }
+    
+};
+
+class infected : virtual public unit
+{
+    bool _deathrattle = true;
+public:
+    infected() : unit("Infected", 50)
+    {
+        cout << "A Skeleton \033[1;32mSpawned\033[0m with \033[1;34m50 Health\033[0m.\n";
+    }
+
+    virtual void takeDamage(int damage) override
+    {
+        int value = 0;
+        if (leftHand != nullptr || rightHand != nullptr)
+        {
+            value = (leftHand->armor_ + rightHand->armor_);
+            if (damage - value < 1)
+            {
+                set_health(get_health() - 1);
+                return;
+            }
+            set_health(get_health() - (damage - value));
+            return;
+        }
+        set_health(get_health() - damage);
+        if (this->is_dead() && !_deathrattle)
+        {
+            cout << "Infected came back from the dead as Zombie with 1 Health." << endl;
+            set_health(1);
+            name_ = "Zombie";
+            _deathrattle = true;
+        }
+    }
+};
+
 
 
