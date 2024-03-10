@@ -49,7 +49,7 @@ int main()
         {
             // spawn new enemy
             float randomRoll = randomFloat();
-            if (enemy->is_equipped() && randomRoll > 0.5f)
+            if (enemy->is_equipped())
             {
                 hero->Drop(enemy->itemDrop());
             }
