@@ -12,6 +12,18 @@ public:
 
     virtual void takeDamage(int damage) override
     {
+        int value = 0;
+        if (leftHand != nullptr || rightHand != nullptr)
+        {
+            value = (leftHand->armor_ + rightHand->armor_);
+            if (damage - value < 1)
+            {
+                set_health(get_health() - 1);
+                return;
+            }
+            set_health(get_health() - (damage - value));
+            return;
+        }
         set_health(get_health() - damage);
         if (this->is_dead() && !_deathrattle)
         {
