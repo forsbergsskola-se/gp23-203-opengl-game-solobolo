@@ -53,14 +53,6 @@ int main()
             {
                 hero->Drop(enemy->itemDrop());
             }
-            else if (randomRoll > 0.5f)
-            {
-                //infected
-            }
-            else
-            {
-                //base enemy
-            }
             delete enemy;
             cout << "\033[1;36mYou killed a total of " << ++killed_monster_count << " Monsters!\033[0m\n";
             cout << "\n";

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-float randomFloat() {
+float inline randomFloat() {
     // Create random device to seed the RNG
     random_device rd;
     
@@ -117,6 +117,10 @@ public:
 
     virtual void Drop(item&& drop)
     {
+        if (strcmp(drop.name_, "No item") != 0)
+        {
+            return;
+        }
         cout << "A " << drop.name_ << " has dropped.\n" << "Currently equipped:\nLeft Hand: " << leftHand->name_ << "\nRight Hand: " << rightHand->name_ << endl;
         cout << "Equip to (L)eft Hand, (R)ight Hand or (D)rop?\n";
         char input;
@@ -160,11 +164,11 @@ public:
         {
             cout << name_ << " \033[1;31mattacks\033[0m " << other.name_ << " with " << leftHand->name_ << " and " << rightHand->name_ << ".\n";
         }
-        if (leftHand != nullptr || rightHand != nullptr)
+        else if (leftHand != nullptr || rightHand != nullptr)
         {
             cout << name_ << " \033[1;31mattacks\033[0m " << other.name_ << " with " << (leftHand != nullptr ? leftHand->name_ : rightHand->name_) << ".\n";
-            int damage = leftHand->damage_;
-            other.takeDamage(leftHand->damage_ + rightHand->damage_ + 1);
+            int damage = (leftHand != nullptr ? leftHand->damage_ : 0) + (rightHand != nullptr ? rightHand->damage_ : 0) + 1;
+            other.takeDamage(damage);
         }
         else
         {
@@ -178,7 +182,7 @@ public:
         int value = 0;
         if (leftHand != nullptr || rightHand != nullptr)
         {
-        value = (leftHand->armor_ + rightHand->armor_);
+            value = (leftHand != nullptr ? leftHand->armor_ : 0) + (rightHand != nullptr ? rightHand->armor_ : 0);
             if (damage - value < 1)
             {
                 set_health(get_health() - 1);
@@ -192,7 +196,7 @@ public:
 
     bool is_equipped() const
     {
-        if (leftHand != nullptr && rightHand != nullptr)
+        if (leftHand == NULL && rightHand == NULL)
         {
             return false;
         }
@@ -212,7 +216,7 @@ class skeleton : virtual public unit
 public:
     skeleton() : unit("Skeleton", 3)
     {
-        cout << "An Infected \033[1;32mSpawned\033[0m with \033[1;34m3 Health\033[0m.\n";
+        cout << "A Skeleton \033[1;32mSpawned\033[0m with \033[1;34m3 Health\033[0m.\n";
     }
 
     virtual void takeDamage(int damage) override
@@ -222,7 +226,7 @@ public:
         damage = damage * 2;
         if (leftHand != nullptr || rightHand != nullptr)
         {
-            value = (leftHand->armor_ + rightHand->armor_);
+            value = (leftHand != nullptr ? leftHand->armor_ : 0) + (rightHand != nullptr ? rightHand->armor_ : 0);
             if (damage - value < 1)
             {
                 set_health(get_health() - 1);
@@ -242,7 +246,7 @@ class infected : virtual public unit
 public:
     infected() : unit("Infected", 3)
     {
-        cout << "A Skeleton \033[1;32mSpawned\033[0m with \033[1;34m3 Health\033[0m.\n";
+        cout << "An Infected \033[1;32mSpawned\033[0m with \033[1;34m3 Health\033[0m.\n";
     }
 
     virtual void takeDamage(int damage) override
@@ -250,7 +254,7 @@ public:
         int value = 0;
         if (leftHand != nullptr || rightHand != nullptr)
         {
-            value = (leftHand->armor_ + rightHand->armor_);
+            value = (leftHand != nullptr ? leftHand->armor_ : 0) + (rightHand != nullptr ? rightHand->armor_ : 0);
             if (damage - value < 1)
             {
                 set_health(get_health() - 1);
