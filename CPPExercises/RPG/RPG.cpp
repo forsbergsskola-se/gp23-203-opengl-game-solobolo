@@ -20,17 +20,16 @@ unit* create_enemy()
     randomRoll = (float)rand() / RAND_MAX;
     if (randomRoll < 0.2f)
     {
-        //skelly
+        return new infected();
     }
     else if (randomRoll > 0.5f)
     {
-        //infected
+        return new skeleton();
     }
     else
     {
-        //base enemy
+        return new unit("Enemy", 3);
     }
-    return new unit("Enemy", 3);
 }
 
 int main()
@@ -52,6 +51,21 @@ int main()
         if (enemy->is_dead())
         {
             // spawn new enemy
+            srand(static_cast<unsigned int>(time(nullptr)));
+            float randomRoll;
+            randomRoll = (float)rand() / RAND_MAX;
+            if (enemy->is_equipped() && randomRoll > 0.5f)
+            {
+                hero->Drop(enemy->itemDrop());
+            }
+            else if (randomRoll > 0.5f)
+            {
+                //infected
+            }
+            else
+            {
+                //base enemy
+            }
             delete enemy;
             cout << "\033[1;36mYou killed a total of " << ++killed_monster_count << " Monsters!\033[0m\n";
             cout << "\n";

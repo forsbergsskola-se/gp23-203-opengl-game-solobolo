@@ -1,7 +1,7 @@
 #pragma once
 #include "unit.h"
 
-class skeleton : virtual unit
+class skeleton : virtual public unit
 {
 public:
     skeleton() : unit("Skeleton", 50)
@@ -12,6 +12,16 @@ public:
     virtual void takeDamage(int damage) override
     {
         cout << "The attack is very effective!" << endl;
+        int value;
+        if (leftHand != nullptr || rightHand != nullptr)
+        {
+            value = ((damage * 2) - leftHand->armor_ - rightHand->armor_);
+        }
+        if (value < 1)
+        {
+            value = 1;
+        }
+        set_health(get_health() - value);
         set_health(get_health() - (damage * 2));
     }
     
