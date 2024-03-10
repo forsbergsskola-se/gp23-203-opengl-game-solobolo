@@ -1,24 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <windows.h>
-#include <random>
 #include "unit.h"
 
 using namespace std;
-
-float randomFloat() {
-    // Create random device to seed the RNG
-    random_device rd;
-    
-    // Create RNG
-    mt19937 gen(rd());
-    
-    // Create uniform distribution between 0 and 1
-    uniform_real_distribution<float> dis(0.0f, 1.0f);
-    
-    // Return random float between 0 and 1
-    return dis(gen);
-}
 
 unit* create_hero()
 {
@@ -63,9 +48,7 @@ int main()
         if (enemy->is_dead())
         {
             // spawn new enemy
-            srand(static_cast<unsigned int>(time(nullptr)));
-            float randomRoll;
-            randomRoll = (float)rand() / RAND_MAX;
+            float randomRoll = randomFloat();
             if (enemy->is_equipped() && randomRoll > 0.5f)
             {
                 hero->Drop(enemy->itemDrop());
