@@ -17,15 +17,15 @@ unit* create_enemy()
     cout << randomRoll << endl;
     if (randomRoll < 0.2f)
     {
-        return new skeleton();
+        return new infected();
     }
     else if (randomRoll > 0.5f)
     {
-        return new infected();
+        return new skeleton();
     }
     else
     {
-        return new unit("Enemy", 3);
+        return new unit("Fiend", (randomFloat() * 3) + 2);
     }
 }
 
@@ -49,7 +49,7 @@ int main()
         {
             // spawn new enemy
             float randomRoll = randomFloat();
-            if (enemy->is_equipped())
+            if (enemy->is_equipped() && randomRoll > 0.5f)
             {
                 hero->Drop(enemy->itemDrop());
             }

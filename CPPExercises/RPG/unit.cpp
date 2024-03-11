@@ -21,6 +21,17 @@ float randomFloat() {
     return dis(gen);
 }
 
+/*int randomInt()
+{
+    random_device rd;
+
+    mt19937 gen(rd());
+
+    uniform_real_distribution<int> dis(0, 5);
+    
+    return dis(gen);
+}*/
+
 const string itemNames[] = {"Dagger", "Spear", "Sword", "Axe", "Shield"};
 
 item::item(const char* name, int value) : name_{ name }
@@ -42,13 +53,13 @@ item::item(const item& other) : name_(other.name_), armor_(other.armor_), damage
 
 item::~item()
 {
-    cout << name_ << " \033[1;31mdied\033[0m.\n";
+    cout << name_ << " \033[1;31mdestroyed\033[0m.\n";
+    name_ = nullptr;
 }
 
 item::item(item&& other) noexcept : armor_(other.armor_), damage_(other.damage_), name_(other.name_) {
     cout << "You've just used the move constructor" << endl;
-
-    other.name_ = nullptr;
+    
     other.armor_ = 0;
     other.damage_ = 0;
 }
@@ -61,7 +72,7 @@ unit::unit(const char* name, const int health) : name_{ name }
     cout << name << " \033[1;32mspawned\033[0m with \033[1;34m" << health << " Health\033[0m.\n";
     if (randomRoll > 0.6f)
     {
-        int randomIndex = rand() % 5;
+        int randomIndex = randomFloat() * 5;
         cout << "index: " << randomIndex << "\n";
         if (randomRoll > 0.8f)
         {
@@ -76,21 +87,21 @@ unit::unit(const char* name, const int health) : name_{ name }
     }
 }
 
+/*item droppedItem = *leftHand; // Using copy constructor
+delete leftHand; // Remove the item from leftHand
+leftHand = nullptr;*/
+
 item unit::itemDrop() noexcept
 {
     if (leftHand != nullptr)
     {
         item droppedItem = *leftHand; // Using copy constructor
-        delete leftHand; // Remove the item from leftHand
-        leftHand = nullptr;
-        return droppedItem;
+        return droppedItem; // Using copy constructor
     }
     else if (rightHand != nullptr)
     {
         item droppedItem = *rightHand; // Using copy constructor
-        delete rightHand; // Remove the item from rightHand
-        rightHand = nullptr;
-        return droppedItem;
+        return droppedItem; // Using copy constructor
     }
     else
     {
@@ -101,11 +112,15 @@ item unit::itemDrop() noexcept
 
 void unit::Drop(item&& drop)
 {
-    if (strcmp(drop.name_, "No item") != 0)
+    if (strcmp(drop.name_, "No item") == 0)
     {
         return;
     }
-    cout << "A " << drop.name_ << " has dropped.\n" << "Currently equipped:\nLeft Hand: " << leftHand->name_ << "\nRight Hand: " << rightHand->name_ << endl;
+    
+    cout << "A " << drop.name_ << " has dropped.\n" << "Currently equipped:\nLeft Hand: "
+    << (leftHand != nullptr ? leftHand->name_ : "empty") << "\nRight Hand: "
+    << (rightHand != nullptr ? rightHand->name_ : "empty") << endl;
+    
     cout << "Equip to (L)eft Hand, (R)ight Hand or (D)rop?\n";
     char input;
     bool validInput = false;
@@ -129,17 +144,15 @@ void unit::Drop(item&& drop)
     }
     if (input == 'D')
     {
-        cout << drop.name_ << "was dropped." << endl;
+        cout << drop.name_ << " was dropped." << endl;
     }
 }
 
 unit::~unit()
 {
     cout << name_ << " \033[1;31mdied\033[0m.\n";
-    if (true)
-    {
-        
-    }
+    if(leftHand) delete[] leftHand;
+    if(rightHand) delete[] rightHand;
 }
 
 void unit::attack(unit& other)
@@ -197,7 +210,7 @@ void unit::set_health(const int value)
     cout << name_ << " now has \033[1;34m" << health_ << " Health\033[0m.\n";
 }
 
-skeleton::skeleton() : unit("Skeleton", 3)
+skeleton::skeleton() : unit("Skeleton", (randomFloat() * 2) + 3)
 {
     cout << "\n";
 }
@@ -205,20 +218,7 @@ skeleton::skeleton() : unit("Skeleton", 3)
 void skeleton::takeDamage(int damage)
 {
     cout << "The attack is very effective!" << endl;
-    int value = 0;
-    damage = damage * 2;
-    if (leftHand != nullptr || rightHand != nullptr)
-    {
-        value = (leftHand != nullptr ? leftHand->armor_ : 0) + (rightHand != nullptr ? rightHand->armor_ : 0);
-        if (damage - value < 1)
-        {
-            set_health(get_health() - 1);
-            return;
-        }
-        set_health(get_health() - (damage - value));
-        return;
-    }
-    set_health(get_health() - damage);
+    unit::takeDamage(damage * 2);
 }
 
 infected::infected() : unit("Infected", 3)
@@ -228,19 +228,7 @@ infected::infected() : unit("Infected", 3)
 
 void infected::takeDamage(int damage)
 {
-    int value = 0;
-    if (leftHand != nullptr || rightHand != nullptr)
-    {
-        value = (leftHand != nullptr ? leftHand->armor_ : 0) + (rightHand != nullptr ? rightHand->armor_ : 0);
-        if (damage - value < 1)
-        {
-            set_health(get_health() - 1);
-            return;
-        }
-        set_health(get_health() - (damage - value));
-        return;
-    }
-    set_health(get_health() - damage);
+    unit::takeDamage(damage);
     if (this->is_dead() && !_deathrattle)
     {
         cout << "Infected came back from the dead as Zombie with 1 Health." << endl;
